@@ -10,7 +10,7 @@ export default function Profile() {
     const token = localStorage.getItem("token");
 ;
 
-axios.get("http://api.strlearners.site/api/user/profile", {
+axios.get("https://api.strlearners.site/api/user/profile", {
   headers: {
     Authorization: token
   },

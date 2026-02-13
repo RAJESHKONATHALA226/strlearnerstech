@@ -8,7 +8,7 @@ export default function Course() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    axios.get("http://api.strlearners.site/api/courses")
+    axios.get("https://api.strlearners.site/api/courses")
       .then(res => setCourses(res.data));
   }, []);
 

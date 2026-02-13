@@ -11,7 +11,7 @@ export default function Lessons() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    axios.get(`http://api.strlearners.site/api/lessons/${courseId}`, {
+    axios.get(`https://api.strlearners.site/api/lessons/${courseId}`, {
       headers: {
     Authorization: token
   },

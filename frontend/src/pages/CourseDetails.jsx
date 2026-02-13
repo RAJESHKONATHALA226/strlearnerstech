@@ -20,7 +20,7 @@ export default function CourseDetails() {
     const token = localStorage.getItem("token");
 
     await axios.post(
-      "http://api.strlearners.site/api/enroll",
+      "https://api.strlearners.site/api/enroll",
       { courseId: id },
       {
     headers: {

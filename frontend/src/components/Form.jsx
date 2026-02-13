@@ -14,7 +14,7 @@ function Form() {
       email,
       password
     }
-  const response=await axios.post("http://api.strlearners.site/api/auth/login",data);
+  const response=await axios.post("https://api.strlearners.site/api/auth/login",data);
 const {token,user}=response.data;
 localStorage.setItem("token",token);
 localStorage.setItem("user",JSON.stringify(user));

@@ -17,7 +17,7 @@ connectDB();
 const app=express();
 
 app.use(cors({
-    origin:"http://strlearners.site" ,
+    origin:"https://strlearners.site" ,
     credentials:true
 }
 ));
