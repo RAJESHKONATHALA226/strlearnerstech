@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+
 import connectDB from "./config/db.js";
 import mongooose from "mongoose";
 import authRoutes from "./routes/auth.js";
@@ -9,7 +9,7 @@ import lessonRoutes from "./routes/lesson.js";
 import userRoutes from "./routes/user.js";
 import adminRoutes from "./routes/admin.js";
 
-dotenv.config();
+
 
 
 connectDB();

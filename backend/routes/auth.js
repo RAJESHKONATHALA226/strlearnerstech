@@ -10,7 +10,7 @@ router.post("/register",async(req,res)=>{
 });
 
 router.post("/login",async(req,res)=>{
- const user=await User.findOne(req.body);
+ const user=await User.findOne({email:req.body.email,password:req.body.password});
  if(!user) return res.sendStatus(401);
 
  const token=jwt.sign(
@@ -18,7 +18,9 @@ router.post("/login",async(req,res)=>{
   "secret123"
  );
 
- res.json({token});
+ const {password,...otherDetails}=user._doc;
+
+ res.json({user:otherDetails,token:token});
 });
 
 export default router;
