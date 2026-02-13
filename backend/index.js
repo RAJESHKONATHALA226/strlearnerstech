@@ -17,8 +17,11 @@ connectDB();
 const app=express();
 
 app.use(cors({
-    origin:"https://strlearners.site" ,
-    credentials:true
+      origin: [
+    "https://strlearners.site",
+    "https://www.strlearners.site"
+  ],
+  credentials: true
 }
 ));
 app.use(express.json());
