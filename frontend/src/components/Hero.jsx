@@ -1,7 +1,8 @@
 import logo from "../assets/strBanner.png";
+import { Link } from "react-router-dom";
 export default function Hero() {
   return (
-    <section className="text-center px-6 py-12">
+    <section className="text-center px-6 py-12 ">
       <h2 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white">
         Masters in Mern Stack Development
       </h2>
@@ -22,10 +23,10 @@ export default function Hero() {
         supportive community.
       </p>
 
-      <button className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold
-         animate-pulse transition-all duration-300 ease-in-out">
+      <Link to="/courses" className="mt-6 inline-block bg-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition-all duration-300 ease-in-out animate-pulse">
         Check the Course on Strlearners
-      </button>
+    
+      </Link>
     </section>
   );
 }
