@@ -12,7 +12,7 @@ export default function AdminCourse() {
   const [editingId, setEditingId] = useState(null);
 
   const token = localStorage.getItem("token");
-  const API = "https://api.strleaarners.site/api/courses";
+  const API = "https://api.strlearners.site/api/courses";
 
   const fetchCourses = async () => {
     const res = await axios.get(API);
