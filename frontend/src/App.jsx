@@ -5,6 +5,7 @@ import Lessons from "./pages/Lesson";
 import CourseDetails from "./pages/CourseDetails";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
+import AdminAccess from "./pages/AdminAccess";
 import AdminRoute from "./Routess/AdminRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 import Admin from "./pages/Admin";
@@ -56,6 +57,7 @@ function App() {
          <Route index element={<Admin />} />
          
           <Route path="courses" element={<AdminCourse />} />
+          <Route path="access" element={<AdminAccess />} />
         </Route>
   </Routes>
   );
