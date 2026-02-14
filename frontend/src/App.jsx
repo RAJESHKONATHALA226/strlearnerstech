@@ -26,12 +26,7 @@ function App() {
       
       } />
 
-     <Route path="/courses/:id" element={
-        <ProtectedRoute>
-      <CourseDetails
-       />
-        </ProtectedRoute>}
-       />
+     
      <Route
           path="/lessons/:courseId"
           element={
@@ -56,7 +51,7 @@ function App() {
         >
          <Route index element={<Admin />} />
          
-          <Route path="courses" element={<AdminCourse />} />
+          <Route path="course" element={<AdminCourse />} />
           <Route path="access" element={<AdminAccess />} />
         </Route>
   </Routes>
