@@ -13,7 +13,7 @@ export default function AdminAccess() {
   const API_COURSES = "https://api.strlearners.site/api/courses";
   const API_GRANT = "https://api.strlearners.site/api/admin/grant-access";
   const API_REMOVE = "https://api.strlearners.site/api/admin/remove-access";
-
+      
   useEffect(() => {
     fetchUsers();
     fetchCourses();
