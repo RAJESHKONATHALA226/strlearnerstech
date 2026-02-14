@@ -6,8 +6,8 @@ import CourseDetails from "./pages/CourseDetails";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import AdminRoute from "./Routess/AdminRoute";
-import AdminDashboard from "./pages/Admin";
-import Admin from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import Admin from "./pages/Admin";
 import AdminCourse from "./pages/AdminCourse";
 import Course from "./pages/Course";
 
@@ -53,7 +53,8 @@ function App() {
             </AdminRoute>
           }
         >
-          <Route index element={<Admin/>} />
+         <Route index element={<Admin />} />
+         
           <Route path="courses" element={<AdminCourse />} />
         </Route>
   </Routes>
