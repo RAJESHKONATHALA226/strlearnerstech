@@ -5,6 +5,10 @@ import Lessons from "./pages/Lesson";
 import CourseDetails from "./pages/CourseDetails";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
+import AdminRoute from "./Routess/AdminRoute";
+import AdminDashboard from "./pages/Admin";
+import Admin from "./pages/AdminDashboard";
+import AdminCourse from "./pages/AdminCourse";
 import Course from "./pages/Course";
 
 import { Routes, Route } from "react-router-dom";
@@ -41,6 +45,17 @@ function App() {
         </ProtectedRoute>
 
       } />
+      <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        >
+          <Route index element={<Admin/>} />
+          <Route path="courses" element={<AdminCourse />} />
+        </Route>
   </Routes>
   );
 }
