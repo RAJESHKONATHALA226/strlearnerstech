@@ -26,7 +26,7 @@ function App() {
       
       } />
 
-     <Route path="/course/:id" element={
+     <Route path="/courses/:id" element={
         <ProtectedRoute>
       <CourseDetails
        />
