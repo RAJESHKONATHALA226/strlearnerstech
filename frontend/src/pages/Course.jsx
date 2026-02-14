@@ -46,7 +46,7 @@ export default function Course() {
               </p>
 
               <Link
-                to={`/course/${course._id}`}
+                to={`/courses/${course._id}`}
                 className="block text-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
               >
                 course Details
