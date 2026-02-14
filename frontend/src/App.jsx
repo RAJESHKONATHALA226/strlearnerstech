@@ -2,7 +2,6 @@ import React from "react";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Lessons from "./pages/Lesson";
-import CourseDetails from "./pages/CourseDetails";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import AdminAccess from "./pages/AdminAccess";
