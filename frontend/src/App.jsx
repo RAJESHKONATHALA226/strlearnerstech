@@ -50,7 +50,7 @@ function App() {
         >
          <Route index element={<Admin />} />
          
-          <Route path="course" element={<AdminCourse />} />
+          <Route path="courses" element={<AdminCourse />} />
           <Route path="access" element={<AdminAccess />} />
         </Route>
   </Routes>
