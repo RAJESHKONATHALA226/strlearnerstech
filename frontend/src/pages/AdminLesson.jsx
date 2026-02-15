@@ -8,7 +8,7 @@ export default function AddLesson() {
   const [lessonTitle, setLessonTitle] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
 
-  
+
 
   useEffect(() => {
     axios.get("https://api.strlearners.site/api/courses")
@@ -21,6 +21,8 @@ export default function AddLesson() {
       courseId,
       title: lessonTitle,
       youtubeUrl
+    },{
+        headers: { Authorization: localStorage.getItem("token") }
     });
 
     alert("Lesson Added Successfully");
