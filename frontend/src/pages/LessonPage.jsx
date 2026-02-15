@@ -185,27 +185,68 @@ export default function LessonPage() {
         )}
 
         {/* COMMENTS */}
-        <h2 className="mt-6 font-bold">Comments ({comments.length})</h2>
+     <h2 className="mt-8 text-xl font-semibold text-gray-800">
+  Comments ({comments.length})
+</h2>
 
-        <textarea
-          className="border w-full p-2 mt-2"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
+<textarea
+  className="
+    w-full 
+    mt-3 
+    p-3 
+    border border-gray-300 
+    rounded-lg 
+    focus:outline-none 
+    focus:ring-2 
+    focus:ring-blue-500 
+    focus:border-blue-500 
+    transition
+  "
+  value={text}
+  onChange={(e) => setText(e.target.value)}
+/>
 
-        <button
-          onClick={addComment}
-          className="bg-blue-500 text-white px-4 py-2 mt-2"
-        >
-          Post Comment
-        </button>
+<button
+  onClick={addComment}
+  className="
+    mt-3 
+    bg-blue-600 
+    hover:bg-blue-700 
+    text-white 
+    px-5 
+    py-2 
+    rounded-lg 
+    shadow-sm 
+    transition 
+    duration-300
+  "
+>
+  Post Comment
+</button>
 
-        {comments.map((c) => (
-          <div key={c._id} className="border p-3 mt-3 bg-gray-100">
-            <p className="font-bold text-blue-600">{c.userId?.name}</p>
-            <p>{c.text}</p>
-          </div>
-        ))}
+{comments.map((c) => (
+  <div
+    key={c._id}
+    className="
+      mt-4 
+      p-4 
+      bg-white 
+      border border-gray-200 
+      rounded-xl 
+      shadow-sm 
+      hover:shadow-md 
+      transition
+    "
+  >
+    <p className="font-semibold text-blue-600">
+      {c.userId?.name}
+    </p>
+    <p className="text-gray-700 mt-1">
+      {c.text}
+    </p>
+  </div>
+))}
+
       </div>
     </div>
   );
