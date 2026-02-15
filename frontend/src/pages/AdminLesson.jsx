@@ -27,9 +27,9 @@ export default function AddLesson() {
 
     try {
       await axios.post("https://api.strlearners.site/api/lessons", {
-        courseId,
+        course: courseId,
         title: lessonTitle,
-        youtubeUrl
+        videoUrl: youtubeUrl.trim() ? youtubeUrl : undefined
       },{
           headers: { Authorization: localStorage.getItem("token") }
       });
