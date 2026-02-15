@@ -13,7 +13,9 @@ export default function LessonPage() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios.get(`https://api.strlearners.site/api/comments/lesson/${id}`)
+    axios.get(`https://api.strlearners.site/api/comments/lesson/${id}`, {
+      headers: { Authorization: token }
+    })
       .then(res => {
         setLesson(res.data.lesson);
         setComments(res.data.comments);

@@ -5,7 +5,7 @@ import { auth } from "../middleware/auth.js";
 
 const router = express.Router();
 // GET SINGLE LESSON + COMMENTS
-router.get("/lesson/:id", async (req, res) => {
+router.get("/lesson/:id", auth, async (req, res) => {
   try {
 
     const lesson = await Lesson.findById(req.params.id);
