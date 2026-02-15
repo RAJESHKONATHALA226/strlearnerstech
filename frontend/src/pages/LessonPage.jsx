@@ -23,12 +23,13 @@ export default function LessonPage() {
     fetchLesson();
   }, [id]);
 
-  // Listen YouTube player time updates
+  // Listen to YouTube messages
   useEffect(() => {
     const handleMessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        if (data.info?.currentTime) {
+
+        if (data.info && data.info.currentTime) {
           setCurrentTime(data.info.currentTime);
         }
       } catch {}
@@ -36,6 +37,15 @@ export default function LessonPage() {
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
+  // Ask YouTube current time every second (VERY IMPORTANT)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      sendCommand("getCurrentTime");
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchLesson = async () => {
@@ -60,7 +70,7 @@ export default function LessonPage() {
     fetchLesson();
   };
 
-  // Extract embed URL
+  // Extract embed URL (FIXED)
   const getEmbedUrl = (url) => {
     if (!url) return null;
 
@@ -70,13 +80,13 @@ export default function LessonPage() {
     const match = url.match(regExp);
 
     return match
-      ? `https://www.youtube.com/embed/${match[1]}?enablejsapi=1&controls=0&rel=0&modestbranding=1`
+      ? `https://www.youtube.com/embed/${match[1]}?enablejsapi=1&origin=${window.location.origin}&controls=0&rel=0&modestbranding=1`
       : null;
   };
 
   const embedUrl = getEmbedUrl(lesson.videoUrl);
 
-  // Send command to player
+  // Send command to YouTube
   const sendCommand = (command, value = null) => {
     iframeRef.current?.contentWindow.postMessage(
       JSON.stringify({
@@ -95,6 +105,7 @@ export default function LessonPage() {
     setIsPlaying(!isPlaying);
   };
 
+  // FIXED forward/backward
   const forward = () => {
     sendCommand("seekTo", currentTime + 10);
   };
@@ -103,7 +114,6 @@ export default function LessonPage() {
     sendCommand("seekTo", Math.max(currentTime - 10, 0));
   };
 
-  // Show controls on tap
   const handleVideoClick = () => {
     setShowControls(true);
 
@@ -134,27 +144,26 @@ export default function LessonPage() {
               allow="autoplay"
             />
 
-            {/* CONTROLS */}
             {showControls && (
               <div className="absolute inset-0 flex items-center justify-center gap-6 z-20">
 
                 <button
                   onClick={backward}
-                  className="w-16 h-16 bg-black/70 text-white rounded-full text-xl flex items-center justify-center"
+                  className="w-16 h-16 bg-black/70 text-white rounded-full text-xl"
                 >
                   ⏪
                 </button>
 
                 <button
                   onClick={togglePlay}
-                  className="w-20 h-20 bg-black/70 text-white rounded-full text-3xl flex items-center justify-center"
+                  className="w-20 h-20 bg-black/70 text-white rounded-full text-3xl"
                 >
                   {isPlaying ? "❚❚" : "▶"}
                 </button>
 
                 <button
                   onClick={forward}
-                  className="w-16 h-16 bg-black/70 text-white rounded-full text-xl flex items-center justify-center"
+                  className="w-16 h-16 bg-black/70 text-white rounded-full text-xl"
                 >
                   ⏩
                 </button>
