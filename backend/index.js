@@ -20,7 +20,7 @@ app.use(cors({
   origin: "https://www.strlearners.site",
     credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use(express.json());
@@ -32,6 +32,6 @@ app.use("/api/user",userRoutes);
 app.use("/api/comments",commentRoutes);
 
 
-app.listen(3000,()=>{
- console.log("Server Running on 3000");
+app.listen(5000,()=>{
+ console.log("Server Running on 5000");
 });
