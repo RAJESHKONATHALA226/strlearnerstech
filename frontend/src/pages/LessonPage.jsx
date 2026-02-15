@@ -13,7 +13,7 @@ export default function LessonPage() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios.get(`https://api.strlearners.site/api/comments/lessons/${id}`)
+    axios.get(`https://api.strlearners.site/api/comments/lesson/${id}`)
       .then(res => {
         setLesson(res.data.lesson);
         setComments(res.data.comments);
