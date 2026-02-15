@@ -54,17 +54,24 @@ const getEmbedUrl = (url) => {
 
 
       {embedUrl ? (
-  <iframe
-    className="w-full h-[400px] mt-4"
-    src={embedUrl}
-    title={lesson.title || "Lesson video"}
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowFullScreen
-  />
-) : (
-  <p>No valid video URL</p>
-)}
+        <div className="relative w-full h-[400px] mt-4">
 
+          {/* YOUTUBE IFRAME */}
+          <iframe
+            className="w-full h-full"
+            src={`${embedUrl}&modestbranding=1`}
+            title={lesson.title || "Lesson video"}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+
+          {/* TOP CLICK BLOCKER */}
+          <div className="absolute top-0 left-0 w-full h-[60px] z-10 cursor-pointer"></div>
+
+        </div>
+      ) : (
+        <p>No valid video URL</p>
+      )}
 
       <h2 className="mt-6 font-bold">
         Comments ({comments.length})
