@@ -11,9 +11,9 @@ export default function LessonPage() {
   const [text, setText] = useState("");
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
 
   const iframeRef = useRef(null);
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -27,21 +27,6 @@ export default function LessonPage() {
       });
   }, [id]);
 
-  // Listen to YouTube time updates
-  useEffect(() => {
-    const listener = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.info?.currentTime) {
-          setCurrentTime(data.info.currentTime);
-        }
-      } catch {}
-    };
-
-    window.addEventListener("message", listener);
-    return () => window.removeEventListener("message", listener);
-  }, []);
-
   const addComment = async () => {
     await axios.post(
       "https://api.strlearners.site/api/comments",
@@ -51,7 +36,7 @@ export default function LessonPage() {
     window.location.reload();
   };
 
-  // Extract embed URL
+  // ✅ Extract YouTube embed URL
   const getEmbedUrl = (url) => {
     if (!url) return null;
 
@@ -67,19 +52,18 @@ export default function LessonPage() {
 
   const embedUrl = getEmbedUrl(lesson.videoUrl);
 
-  // Send command to YouTube iframe
-  const sendCommand = (func, args = []) => {
+  // ✅ Send play/pause commands to YouTube iframe
+  const sendCommand = (command) => {
     iframeRef.current?.contentWindow.postMessage(
       JSON.stringify({
         event: "command",
-        func,
-        args,
+        func: command,
+        args: [],
       }),
       "*"
     );
   };
 
-  // Play / Pause
   const togglePlay = () => {
     if (isPlaying) {
       sendCommand("pauseVideo");
@@ -87,16 +71,6 @@ export default function LessonPage() {
       sendCommand("playVideo");
     }
     setIsPlaying(!isPlaying);
-  };
-
-  // ⏪ Backward 10 sec
-  const rewind = () => {
-    sendCommand("seekTo", [currentTime - 10, true]);
-  };
-
-  // ⏩ Forward 10 sec
-  const forward = () => {
-    sendCommand("seekTo", [currentTime + 10, true]);
   };
 
   return (
@@ -110,7 +84,7 @@ export default function LessonPage() {
         {embedUrl ? (
           <div className="relative w-full h-[400px] mt-4">
 
-            {/* IFRAME */}
+            {/* IFRAME (NO DIRECT CLICKS) */}
             <iframe
               ref={iframeRef}
               className="w-full h-full pointer-events-none"
@@ -119,37 +93,19 @@ export default function LessonPage() {
               allow="autoplay"
             />
 
-            {/* CONTROLS */}
-            <div className="absolute inset-0 flex items-center justify-center gap-6 z-20">
-
-              <button
-                onClick={rewind}
-                className="bg-black/70 text-white px-4 py-2 rounded text-xl"
-              >
-                ⏪
-              </button>
-
-              <button
-                onClick={togglePlay}
-                className="bg-black/70 text-white px-6 py-3 rounded text-2xl"
-              >
-                {isPlaying ? "❚❚" : "▶"}
-              </button>
-
-              <button
-                onClick={forward}
-                className="bg-black/70 text-white px-4 py-2 rounded text-xl"
-              >
-                ⏩
-              </button>
-
-            </div>
+            {/* CUSTOM PLAY/PAUSE BUTTON */}
+            <button
+              onClick={togglePlay}
+              className="absolute inset-0 m-auto w-20 h-20 bg-black/70 text-white rounded-full text-3xl z-20 flex items-center justify-center"
+            >
+              {isPlaying ? "❚❚" : "▶"}
+            </button>
           </div>
         ) : (
           <p>No valid video URL</p>
         )}
 
-        {/* COMMENTS */}
+        {/* COMMENTS SECTION */}
         <h2 className="mt-6 font-bold">
           Comments ({comments.length})
         </h2>
