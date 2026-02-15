@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import Navbar from "../components/Navbar";
 export default function LessonPage() {
 
   const { id } = useParams();
@@ -32,6 +32,8 @@ export default function LessonPage() {
   const embedUrl = lesson.youtubeUrl?.replace("watch?v=", "embed/");
 
   return (
+    <div>
+      <Navbar />
     <div className="p-6">
 
       <h1 className="text-xl font-bold">{lesson.title}</h1>
@@ -70,6 +72,7 @@ export default function LessonPage() {
         </div>
       ))}
 
+    </div>
     </div>
   );
 }

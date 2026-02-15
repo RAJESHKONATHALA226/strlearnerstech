@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function Lessons() {
 
@@ -14,6 +15,8 @@ export default function Lessons() {
   }, []);
 
   return (
+      <div>
+        <Navbar />
     <div className="p-6">
       {lessons.map(l => (
         <div
@@ -24,6 +27,7 @@ export default function Lessons() {
           {l.title}
         </div>
       ))}
+    </div>
     </div>
   );
 }
