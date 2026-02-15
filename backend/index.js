@@ -7,7 +7,8 @@ import authRoutes from "./routes/auth.js";
 import courseRoutes from "./routes/course.js";
 import lessonRoutes from "./routes/lesson.js";
 import userRoutes from "./routes/user.js";
-import adminRoutes from "./routes/admin.js";
+
+import routercomment from "./routes/comment.js";
 
 
 
@@ -28,7 +29,8 @@ app.use("/api/auth",authRoutes);
 app.use("/api/courses",courseRoutes);
 app.use("/api/lessons",lessonRoutes);
 app.use("/api/user",userRoutes);
-app.use("/api/admin",adminRoutes);
+app.use("/api/comments",routercomment);
+
 
 app.listen(5000,()=>{
  console.log("Server Running on 5000");

@@ -29,8 +29,8 @@ export default function AdminDashboard() {
           <Link to="/admin/courses" className="hover:bg-indigo-600 p-2 rounded-lg">
             Manage Courses
           </Link>
-          <Link to="/admin/access" className="hover:bg-indigo-600 p-2 rounded-lg">
-  Manage Access
+          <Link to="/admin/add-lesson" className="hover:bg-indigo-600 p-2 rounded-lg">
+  Manage Lessons
 </Link>
 
 

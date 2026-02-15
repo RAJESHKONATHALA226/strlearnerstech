@@ -1,14 +1,13 @@
 import express from "express";
 import Lesson from "../models/Lesson.js";
 import {auth,admin} from "../middleware/auth.js";
-import {courseAccess} from "../middleware/courseAccess.js";
+
 
 const router=express.Router();
 
 router.get(
  "/:courseId",
  auth,
- courseAccess,
  async(req,res)=>{
   res.json(
    await Lesson.find({
@@ -19,7 +18,9 @@ router.get(
 );
 
 router.post("/",auth,admin,async(req,res)=>{
- res.json(await Lesson.create(req.body));
+    const lesson=await Lesson.create(req.body);
+    lesson.save();
+ res.json("successfully added lesson");
 });
 
 router.put("/:id",auth,admin,async(req,res)=>{
