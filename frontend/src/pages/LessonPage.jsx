@@ -12,6 +12,7 @@ export default function LessonPage() {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [showControls, setShowControls] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
 
   const iframeRef = useRef(null);
   const hideTimer = useRef(null);
@@ -21,6 +22,21 @@ export default function LessonPage() {
   useEffect(() => {
     fetchLesson();
   }, [id]);
+
+  // Listen YouTube player time updates
+  useEffect(() => {
+    const handleMessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.info?.currentTime) {
+          setCurrentTime(data.info.currentTime);
+        }
+      } catch {}
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
 
   const fetchLesson = async () => {
     const res = await axios.get(
@@ -41,10 +57,10 @@ export default function LessonPage() {
     );
 
     setText("");
-    fetchLesson(); // refresh comments without reload
+    fetchLesson();
   };
 
-  // Extract YouTube embed URL
+  // Extract embed URL
   const getEmbedUrl = (url) => {
     if (!url) return null;
 
@@ -60,28 +76,34 @@ export default function LessonPage() {
 
   const embedUrl = getEmbedUrl(lesson.videoUrl);
 
-  // Send play/pause commands to iframe
-  const sendCommand = (command) => {
+  // Send command to player
+  const sendCommand = (command, value = null) => {
     iframeRef.current?.contentWindow.postMessage(
       JSON.stringify({
         event: "command",
         func: command,
-        args: [],
+        args: value !== null ? [value, true] : [],
       }),
       "*"
     );
   };
 
   const togglePlay = () => {
-    if (isPlaying) {
-      sendCommand("pauseVideo");
-    } else {
-      sendCommand("playVideo");
-    }
+    if (isPlaying) sendCommand("pauseVideo");
+    else sendCommand("playVideo");
+
     setIsPlaying(!isPlaying);
   };
 
-  // Show controls on touch/click
+  const forward = () => {
+    sendCommand("seekTo", currentTime + 10);
+  };
+
+  const backward = () => {
+    sendCommand("seekTo", Math.max(currentTime - 10, 0));
+  };
+
+  // Show controls on tap
   const handleVideoClick = () => {
     setShowControls(true);
 
@@ -99,7 +121,6 @@ export default function LessonPage() {
       <div className="p-6">
         <h1 className="text-xl font-bold">{lesson.title}</h1>
 
-        {/* VIDEO PLAYER */}
         {embedUrl ? (
           <div
             className="relative w-full h-[400px] mt-4 cursor-pointer"
@@ -113,14 +134,32 @@ export default function LessonPage() {
               allow="autoplay"
             />
 
-            {/* Show controls only when user clicks */}
+            {/* CONTROLS */}
             {showControls && (
-              <button
-                onClick={togglePlay}
-                className="absolute inset-0 m-auto w-20 h-20 bg-black/70 text-white rounded-full text-3xl z-20 flex items-center justify-center transition"
-              >
-                {isPlaying ? "❚❚" : "▶"}
-              </button>
+              <div className="absolute inset-0 flex items-center justify-center gap-6 z-20">
+
+                <button
+                  onClick={backward}
+                  className="w-16 h-16 bg-black/70 text-white rounded-full text-xl flex items-center justify-center"
+                >
+                  ⏪
+                </button>
+
+                <button
+                  onClick={togglePlay}
+                  className="w-20 h-20 bg-black/70 text-white rounded-full text-3xl flex items-center justify-center"
+                >
+                  {isPlaying ? "❚❚" : "▶"}
+                </button>
+
+                <button
+                  onClick={forward}
+                  className="w-16 h-16 bg-black/70 text-white rounded-full text-xl flex items-center justify-center"
+                >
+                  ⏩
+                </button>
+
+              </div>
             )}
           </div>
         ) : (
