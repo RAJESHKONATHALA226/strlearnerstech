@@ -16,19 +16,33 @@ export default function AddLesson() {
   }, []);
 
   const addLesson = async () => {
+    if (!courseId) {
+      alert("Please select a course");
+      return;
+    }
+    if (!lessonTitle.trim()) {
+      alert("Please enter a lesson title");
+      return;
+    }
 
-    await axios.post("https://api.strlearners.site/api/lessons", {
-      courseId,
-      title: lessonTitle,
-      youtubeUrl
-    },{
-        headers: { Authorization: localStorage.getItem("token") }
-    });
+    try {
+      await axios.post("https://api.strlearners.site/api/lessons", {
+        courseId,
+        title: lessonTitle,
+        youtubeUrl
+      },{
+          headers: { Authorization: localStorage.getItem("token") }
+      });
 
-    alert("Lesson Added Successfully");
+      alert("Lesson Added Successfully");
 
-    setLessonTitle("");
-    setYoutubeUrl("");
+      setLessonTitle("");
+      setYoutubeUrl("");
+      setCourseId("");
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Failed to add lesson");
+    }
   };
 
   return (
@@ -38,9 +52,10 @@ export default function AddLesson() {
 
       <select
         className="border p-2 w-full mb-3"
+        value={courseId}
         onChange={e => setCourseId(e.target.value)}
       >
-        <option>Select Course</option>
+        <option value="">Select Course</option>
 
         {courses.map(c => (
           <option key={c._id} value={c._id}>
