@@ -11,32 +11,40 @@ export default function LessonPage() {
   const [text, setText] = useState("");
 
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showControls, setShowControls] = useState(false);
 
   const iframeRef = useRef(null);
+  const hideTimer = useRef(null);
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios
-      .get(`https://api.strlearners.site/api/comments/lesson/${id}`, {
-        headers: { Authorization: token },
-      })
-      .then((res) => {
-        setLesson(res.data.lesson);
-        setComments(res.data.comments);
-      });
+    fetchLesson();
   }, [id]);
 
+  const fetchLesson = async () => {
+    const res = await axios.get(
+      `https://api.strlearners.site/api/comments/lesson/${id}`,
+      { headers: { Authorization: token } }
+    );
+    setLesson(res.data.lesson);
+    setComments(res.data.comments);
+  };
+
   const addComment = async () => {
+    if (!text.trim()) return;
+
     await axios.post(
       "https://api.strlearners.site/api/comments",
       { lessonId: id, text },
       { headers: { Authorization: token } }
     );
-    window.location.reload();
+
+    setText("");
+    fetchLesson(); // refresh comments without reload
   };
 
-  // ✅ Extract YouTube embed URL
+  // Extract YouTube embed URL
   const getEmbedUrl = (url) => {
     if (!url) return null;
 
@@ -52,7 +60,7 @@ export default function LessonPage() {
 
   const embedUrl = getEmbedUrl(lesson.videoUrl);
 
-  // ✅ Send play/pause commands to YouTube iframe
+  // Send play/pause commands to iframe
   const sendCommand = (command) => {
     iframeRef.current?.contentWindow.postMessage(
       JSON.stringify({
@@ -73,6 +81,17 @@ export default function LessonPage() {
     setIsPlaying(!isPlaying);
   };
 
+  // Show controls on touch/click
+  const handleVideoClick = () => {
+    setShowControls(true);
+
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+
+    hideTimer.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  };
+
   return (
     <div>
       <Navbar />
@@ -82,9 +101,10 @@ export default function LessonPage() {
 
         {/* VIDEO PLAYER */}
         {embedUrl ? (
-          <div className="relative w-full h-[400px] mt-4">
-
-            {/* IFRAME (NO DIRECT CLICKS) */}
+          <div
+            className="relative w-full h-[400px] mt-4 cursor-pointer"
+            onClick={handleVideoClick}
+          >
             <iframe
               ref={iframeRef}
               className="w-full h-full pointer-events-none"
@@ -93,22 +113,22 @@ export default function LessonPage() {
               allow="autoplay"
             />
 
-            {/* CUSTOM PLAY/PAUSE BUTTON */}
-            <button
-              onClick={togglePlay}
-              className="absolute inset-0 m-auto w-20 h-20 bg-black/70 text-white rounded-full text-3xl z-20 flex items-center justify-center"
-            >
-              {isPlaying ? "❚❚" : "▶"}
-            </button>
+            {/* Show controls only when user clicks */}
+            {showControls && (
+              <button
+                onClick={togglePlay}
+                className="absolute inset-0 m-auto w-20 h-20 bg-black/70 text-white rounded-full text-3xl z-20 flex items-center justify-center transition"
+              >
+                {isPlaying ? "❚❚" : "▶"}
+              </button>
+            )}
           </div>
         ) : (
           <p>No valid video URL</p>
         )}
 
-        {/* COMMENTS SECTION */}
-        <h2 className="mt-6 font-bold">
-          Comments ({comments.length})
-        </h2>
+        {/* COMMENTS */}
+        <h2 className="mt-6 font-bold">Comments ({comments.length})</h2>
 
         <textarea
           className="border w-full p-2 mt-2"
