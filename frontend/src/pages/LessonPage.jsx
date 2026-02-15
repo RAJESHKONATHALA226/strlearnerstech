@@ -43,7 +43,7 @@ export default function LessonPage() {
           className="w-full h-[400px] mt-4"
           src={embedUrl}
           allowFullScreen
-        />
+        />  
       )}
 
       <h2 className="mt-6 font-bold">

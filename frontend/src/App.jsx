@@ -27,7 +27,7 @@ function App() {
 
      
      <Route
-          path="/lessons/:courseId"
+          path="/lesson/:courseId"
           element={
             <ProtectedRoute>
               <Lessons />
@@ -42,7 +42,7 @@ function App() {
 
       } />
       <Route
-          path="/lesson/:id"
+          path="/lessons/:id"
           element={
             <ProtectedRoute>
               <LessonPage />

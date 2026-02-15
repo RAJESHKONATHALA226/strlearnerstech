@@ -29,7 +29,7 @@ export default function Navbar() {
           </h1>
           </NavLink>
           <p className="text-xs text-gray-500">
-            powered by Strs
+            powered by KonathalaRajesh
           </p>
         </div>
 
