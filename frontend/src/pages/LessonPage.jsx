@@ -31,7 +31,33 @@ export default function LessonPage() {
     window.location.reload();
   };
 
-  const embedUrl = lesson.youtubeUrl?.replace("watch?v=", "embed/");
+  const getEmbedUrl = (url) => {
+    if (!url) return null;
+    try {
+      const u = new URL(url);
+      const host = u.hostname;
+      if (host.includes("youtu.be")) {
+        const id = u.pathname.slice(1);
+        return `https://www.youtube.com/embed/${id}`;
+      }
+      if (host.includes("youtube.com")) {
+        if (u.pathname.startsWith("/watch")) {
+          const v = new URLSearchParams(u.search).get("v");
+          if (v) return `https://www.youtube.com/embed/${v}`;
+        }
+        if (u.pathname.startsWith("/embed/")) return url;
+        const parts = u.pathname.split("/");
+        const idx = parts.indexOf("v");
+        if (idx !== -1 && parts[idx + 1]) return `https://www.youtube.com/embed/${parts[idx + 1]}`;
+      }
+    } catch (e) {
+      if (url.includes("watch?v=")) return url.replace("watch?v=", "embed/");
+      if (url.includes("youtu.be/")) return url.replace("youtu.be/", "www.youtube.com/embed/");
+    }
+    return null;
+  };
+
+  const embedUrl = getEmbedUrl(lesson.youtubeUrl);
 
   return (
     <div>
@@ -44,8 +70,10 @@ export default function LessonPage() {
         <iframe
           className="w-full h-[400px] mt-4"
           src={embedUrl}
+          title={lesson.title || "Lesson video"}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
-        />  
+        />
       )}
 
       <h2 className="mt-6 font-bold">
