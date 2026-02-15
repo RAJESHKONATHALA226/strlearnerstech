@@ -23,13 +23,16 @@ export default function LessonPage() {
     fetchLesson();
   }, [id]);
 
-  // Listen to YouTube messages
+  /* ===============================
+     LISTEN TO YOUTUBE PLAYER DATA
+  =============================== */
   useEffect(() => {
     const handleMessage = (event) => {
       try {
         const data = JSON.parse(event.data);
 
-        if (data.info && data.info.currentTime) {
+        // ✅ FIX: allow 0 time also
+        if (data.info && data.info.currentTime !== undefined) {
           setCurrentTime(data.info.currentTime);
         }
       } catch {}
@@ -39,7 +42,9 @@ export default function LessonPage() {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  // Ask YouTube current time every second (VERY IMPORTANT)
+  /* ===============================
+     ASK TIME EVERY SECOND
+  =============================== */
   useEffect(() => {
     const interval = setInterval(() => {
       sendCommand("getCurrentTime");
@@ -70,7 +75,9 @@ export default function LessonPage() {
     fetchLesson();
   };
 
-  // Extract embed URL (FIXED)
+  /* ===============================
+     YOUTUBE EMBED URL
+  =============================== */
   const getEmbedUrl = (url) => {
     if (!url) return null;
 
@@ -86,7 +93,9 @@ export default function LessonPage() {
 
   const embedUrl = getEmbedUrl(lesson.videoUrl);
 
-  // Send command to YouTube
+  /* ===============================
+     SEND COMMAND TO PLAYER
+  =============================== */
   const sendCommand = (command, value = null) => {
     iframeRef.current?.contentWindow.postMessage(
       JSON.stringify({
@@ -98,6 +107,9 @@ export default function LessonPage() {
     );
   };
 
+  /* ===============================
+     CONTROLS
+  =============================== */
   const togglePlay = () => {
     if (isPlaying) sendCommand("pauseVideo");
     else sendCommand("playVideo");
@@ -105,7 +117,6 @@ export default function LessonPage() {
     setIsPlaying(!isPlaying);
   };
 
-  // FIXED forward/backward
   const forward = () => {
     sendCommand("seekTo", currentTime + 10);
   };
@@ -146,7 +157,6 @@ export default function LessonPage() {
 
             {showControls && (
               <div className="absolute inset-0 flex items-center justify-center gap-6 z-20">
-
                 <button
                   onClick={backward}
                   className="w-16 h-16 bg-black/70 text-white rounded-full text-xl"
@@ -167,7 +177,6 @@ export default function LessonPage() {
                 >
                   ⏩
                 </button>
-
               </div>
             )}
           </div>
