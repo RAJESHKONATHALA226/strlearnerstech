@@ -7,8 +7,7 @@ import authRoutes from "./routes/auth.js";
 import courseRoutes from "./routes/course.js";
 import lessonRoutes from "./routes/lesson.js";
 import userRoutes from "./routes/user.js";
-
-import routercomment from "./routes/comment.js";
+import commentRoutes from "./routes/comment.js";
 
 
 
@@ -30,7 +29,7 @@ app.use("/api/auth",authRoutes);
 app.use("/api/courses",courseRoutes);
 app.use("/api/lessons",lessonRoutes);
 app.use("/api/user",userRoutes);
-app.use("/api/comments",routercomment);
+app.use("/api/comments",commentRoutes);
 
 
 app.listen(3000,()=>{
