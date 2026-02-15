@@ -39,7 +39,9 @@ const getEmbedUrl = (url) => {
 
   const match = url.match(regExp);
 
-  return match ? `https://www.youtube.com/embed/${match[1]}?rel=0` : null;
+  return match
+    ? `https://www.youtube.com/embed/${match[1]}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`
+    : null;
 };
 
 
@@ -56,17 +58,17 @@ const getEmbedUrl = (url) => {
       {embedUrl ? (
         <div className="relative w-full h-[400px] mt-4">
 
-          {/* YOUTUBE IFRAME */}
+          {/* YOUTUBE VIDEO */}
           <iframe
             className="w-full h-full"
-            src={`${embedUrl}&modestbranding=1`}
+            src={embedUrl}
             title={lesson.title || "Lesson video"}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
 
-          {/* TOP CLICK BLOCKER */}
-          <div className="absolute top-0 left-0 w-full h-[60px] z-10 cursor-pointer"></div>
+          {/* TOP CLICK BLOCKER (VERY IMPORTANT) */}
+          <div className="absolute top-0 left-0 w-full h-[100px] z-10 cursor-pointer"></div>
 
         </div>
       ) : (
