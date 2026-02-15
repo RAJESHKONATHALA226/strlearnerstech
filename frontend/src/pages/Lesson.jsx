@@ -5,16 +5,17 @@ import Navbar from "../components/Navbar";
 
 export default function Lessons() {
 
-  const { id } = useParams();
+  const { courseId } = useParams();
   const [lessons, setLessons] = useState([]);
   const nav = useNavigate();
 
   useEffect(() => {
-    axios.get(`https://api.strlearners.site/api/lessons/${id}`, {
+    if (!courseId) return;
+    axios.get(`https://api.strlearners.site/api/lessons/${courseId}`, {
       headers: { Authorization: localStorage.getItem("token") }
     })
       .then(res => setLessons(res.data));
-  }, []);
+  }, [courseId]);
 
   return (
       <div>
@@ -23,7 +24,7 @@ export default function Lessons() {
       {lessons.map(l => (
         <div
           key={l._id}
-          onClick={() => nav(`/lesson/${l._id}`)}
+          onClick={() => nav(`/lessons/${l._id}`)}
           className="border p-4 mb-2 cursor-pointer"
         >
           {l.title}
