@@ -33,6 +33,6 @@ app.use("/api/user",userRoutes);
 app.use("/api/comments",routercomment);
 
 
-app.listen(5000,()=>{
- console.log("Server Running on 5000");
+app.listen(3000,()=>{
+ console.log("Server Running on 3000");
 });
