@@ -12,7 +12,7 @@ router.get("/lesson/:id", auth, async (req, res) => {
 
     const comments = await Comment.find({
       lessonId: req.params.id
-    }).populate("userId", "name");
+    }).populate("userId", "name image");
 
     res.json({
       lesson,

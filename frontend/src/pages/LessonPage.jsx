@@ -246,9 +246,9 @@ export default function LessonPage() {
     <p className="font-semibold text-blue-600">
       {c.userId?.name}
     </p>
-    <p className="text-gray-700 mt-1">
+    <h3 className="text-gray-700 mt-1">
       {c.text}
-    </p>
+    </h3>
   </div>
 ))}
 
