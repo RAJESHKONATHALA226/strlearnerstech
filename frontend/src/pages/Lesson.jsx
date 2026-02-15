@@ -10,7 +10,9 @@ export default function Lessons() {
   const nav = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/lessons/${id}`)
+    axios.get(`https://api.strlearners.site/api/lessons/${id}`, {
+      headers: { Authorization: localStorage.getItem("token") }
+    })
       .then(res => setLessons(res.data));
   }, []);
 
