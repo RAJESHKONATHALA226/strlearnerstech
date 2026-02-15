@@ -57,7 +57,7 @@ export default function LessonPage() {
     return null;
   };
 
-  const embedUrl = getEmbedUrl(lesson.youtubeUrl);
+  const embedUrl = getEmbedUrl(lesson.videoUrl);
 
   return (
     <div>
@@ -65,6 +65,7 @@ export default function LessonPage() {
     <div className="p-6">
 
       <h1 className="text-xl font-bold">{lesson.title}</h1>
+
 
       {embedUrl && (
         <iframe
