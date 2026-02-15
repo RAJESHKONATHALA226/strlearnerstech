@@ -27,7 +27,7 @@ function App() {
 
      
      <Route
-          path="/lesson/:courseId"
+          path="/lessons/:courseId"
           element={
             <ProtectedRoute>
               <Lessons />
