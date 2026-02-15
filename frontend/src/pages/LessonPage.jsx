@@ -238,11 +238,7 @@ export default function LessonPage() {
       transition
     "
   >
-    <img
-      src={c.userId?.image}
-      alt="user"
-      className="w-10 h-10 rounded-full object-cover mb-2"
-    />
+    
     <p className="font-semibold text-blue-600">
       {c.userId?.name}
     </p>
