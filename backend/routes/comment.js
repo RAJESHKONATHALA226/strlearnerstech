@@ -32,7 +32,7 @@ router.post("/", auth, async (req, res) => {
     const comment = new Comment({
       lessonId: req.body.lessonId,
       text: req.body.text,
-      userId: req.user.id
+      userId: req.user._id
     });
 
     await comment.save();
