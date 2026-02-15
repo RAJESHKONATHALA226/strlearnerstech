@@ -18,7 +18,7 @@ connectDB();
 const app=express();
 
 app.use(cors({
-  origin: "https://strlearners.site",
+  origin: "https://www.strlearners.site",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
