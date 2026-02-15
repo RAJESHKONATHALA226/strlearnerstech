@@ -1,8 +1,9 @@
-const router = require("express").Router();
-const Comment = require("../models/Comment");
-const Lesson = require("../models/Lesson");
-const auth = require("../middleware/auth");
+import express from "express";
+import Comment from "../models/Comment.js";
+import Lesson from "../models/Lesson.js";
+import { auth } from "../middleware/auth.js";
 
+const router = express.Router();
 // GET SINGLE LESSON + COMMENTS
 router.get("/lesson/:id", async (req, res) => {
   try {
@@ -43,4 +44,4 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
